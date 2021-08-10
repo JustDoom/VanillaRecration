@@ -17,9 +17,7 @@ public class Main extends Extension {
     }
 
     public void initialize() {
-        VanillaLootTables.register(MinecraftServer.getLootTableManager());
-
-        new PlayerInit();
+        
     }
 
     public void terminate() {
