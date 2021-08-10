@@ -1,10 +1,9 @@
 package com.imjustdoom.vanilla.gamedata.conditions;
 
 import com.google.gson.*;
+import com.imjustdoom.vanilla.gamedata.loottables.ConditionContainer;
+import com.imjustdoom.vanilla.gamedata.loottables.LootTableManager;
 import net.minestom.server.data.Data;
-import net.minestom.server.gamedata.Condition;
-import net.minestom.server.gamedata.loottables.ConditionContainer;
-import net.minestom.server.gamedata.loottables.LootTableManager;
 
 import java.lang.reflect.Type;
 

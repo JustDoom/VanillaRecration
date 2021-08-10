@@ -1,13 +1,9 @@
 package com.imjustdoom.vanilla.entity;
 
-import net.minestom.server.coordinate.Point;
-import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.ItemEntity;
 import net.minestom.server.entity.LivingEntity;
 import net.minestom.server.instance.block.Block;
-import net.minestom.server.instance.block.BlockHandler;
-import net.minestom.server.instance.block.BlockManager;
 import net.minestom.server.instance.block.CustomBlock;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
@@ -18,9 +14,9 @@ import java.util.Random;
 
 public class FallingBlockEntity extends LivingEntity {
     private final Block baseBlock;
-    private final BlockHandler toPlace;
+    private final CustomBlock toPlace;
 
-    public FallingBlockEntity(Block baseBlock, BlockHandler toPlace, Pos initialPosition) {
+    public FallingBlockEntity(Block baseBlock, CustomBlock toPlace, Position initialPosition) {
         super(EntityType.FALLING_BLOCK, initialPosition);
         this.baseBlock = baseBlock;
         this.toPlace = toPlace;
@@ -31,12 +27,12 @@ public class FallingBlockEntity extends LivingEntity {
     @Override
     public void update(long time) {
         if(isOnGround()) {
-            Point position = getPosition().toBlockPosition().subtract(0, 1, 0);
+            BlockPosition position = getPosition().toBlockPosition().subtract(0, 1, 0);
             if(instance.getBlockStateId(position) != Block.AIR.getBlockId()) {
                 // landed on non-full block, break into item
                 Material correspondingItem = Material.valueOf(baseBlock.name()); // TODO: ugly way of finding corresponding item, change
                 ItemStack stack = ItemStack.of(correspondingItem, (byte) 1);
-                ItemEntity itemForm = new ItemEntity(stack, new Pos(position.x()+0.5f, position.y(), position.z()+0.5f));
+                ItemEntity itemForm = new ItemEntity(stack, new Position(position.getX()+0.5f, position.getY(), position.getZ()+0.5f));
 
                 Random rng = new Random();
                 itemForm.getVelocity().setX((float) rng.nextGaussian()*2f);
@@ -46,7 +42,7 @@ public class FallingBlockEntity extends LivingEntity {
                 itemForm.setInstance(instance);
             } else {
                 if(toPlace != null) {
-                    instance.setSeparateBlocks(position.x(), position.y(), position.z(), baseBlock.getBlockId(), toPlace.getCustomBlockId());
+                    instance.setSeparateBlocks(position.getX(), position.getY(), position.getZ(), baseBlock.getBlockId(), toPlace.getCustomBlockId());
                 } else {
                     instance.setBlock(getPosition().toBlockPosition(), baseBlock);
                 }

@@ -1,18 +1,17 @@
 package com.imjustdoom.vanilla.blocks;
 
-import net.minestom.server.coordinate.Point;
 import net.minestom.server.data.Data;
 import net.minestom.server.entity.Player;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
-import net.minestom.server.instance.block.BlockHandler;
-import org.jetbrains.annotations.NotNull;
+import net.minestom.server.instance.block.CustomBlock;
+import net.minestom.server.utils.BlockPosition;
 import org.jglrxavpok.hephaistos.nbt.NBTCompound;
 
 import java.util.List;
 import java.util.Set;
 
-public abstract class VanillaBlock implements BlockHandler {
+public abstract class VanillaBlock extends CustomBlock {
 
     private final Block baseBlock;
     private final BlockPropertyList properties;
@@ -20,7 +19,7 @@ public abstract class VanillaBlock implements BlockHandler {
     private final BlockState baseBlockState;
 
     public VanillaBlock(Block baseBlock) {
-        //super(baseBlock, "vanilla_" + baseBlock.name().toLowerCase());
+        super(baseBlock, "vanilla_" + baseBlock.name().toLowerCase());
         this.baseBlock = baseBlock;
         this.properties = createPropertyValues();
 
@@ -51,18 +50,30 @@ public abstract class VanillaBlock implements BlockHandler {
         return baseBlock;
     }
 
+    /**
+     * Create data for this block
+     *
+     * @param blockPosition
+     * @param data
+     * @return
+     */
     @Override
-    public void onPlace(@NotNull Placement placement) {
+    public Data createData(Instance instance, BlockPosition blockPosition, Data data) {
+        return data;
+    }
+
+    @Override
+    public void onPlace(Instance instance, BlockPosition blockPosition, Data data) {
 
     }
 
     @Override
-    public void onDestroy(@NotNull BlockHandler.Destroy destroy) {
+    public void onDestroy(Instance instance, BlockPosition blockPosition, Data data) {
 
     }
 
     @Override
-    public void tick(@NotNull BlockHandler.Tick tick) {
+    public void update(Instance instance, BlockPosition blockPosition, Data data) {
 
     }
 
@@ -70,7 +81,7 @@ public abstract class VanillaBlock implements BlockHandler {
      * Interact with this block, depending on properties
      */
     @Override
-    public boolean onInteract(@NotNull BlockHandler.Interaction interaction) {
+    public boolean onInteract(Player player, Player.Hand hand, BlockPosition blockPosition, Data data) {
         return false;
     }
 
@@ -78,11 +89,34 @@ public abstract class VanillaBlock implements BlockHandler {
         return baseBlock.getBlockId();
     }
 
-    public short getVisualBlockForPlacement(Player player, Player.Hand hand, Point blockPosition) {
+    @Override
+    public short getCustomBlockId() {
+        return baseBlock.getBlockId();
+    }
+
+    @Override
+    public int getBreakDelay(Player player, BlockPosition position, byte stage, Set<Player> breakers) {
+        return -1;
+    }
+
+    public short getVisualBlockForPlacement(Player player, Player.Hand hand, BlockPosition blockPosition) {
         return getBaseBlockId();
     }
 
-    public Data readBlockEntity(NBTCompound nbt, Instance instance, Point position, Data originalData) {
+    /**
+     * Loads the BlockEntity information from the given NBT, during world loading from the Anvil format.
+     * Should be stored in the Data object returned by this function.
+     * It is allowed (and encouraged) to modify 'originalData' and returning it.
+     * <p>
+     * Your method {@link #createData(Instance, BlockPosition, Data)} should return a non-null data object if you want to use this method easily
+     *
+     * @param nbt          the nbt data to read from
+     * @param instance     instance in which the tile entity is being loaded
+     * @param position     position at which this block is. DON'T CACHE IT
+     * @param originalData data present at the current position
+     * @return a Data object with the loaded information. Can be originalData, a new object, or even null if you don't use the TE info
+     */
+    public Data readBlockEntity(NBTCompound nbt, Instance instance, BlockPosition position, Data originalData) {
         return originalData;
     }
 

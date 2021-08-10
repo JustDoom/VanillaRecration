@@ -1,0 +1,9 @@
+{
+  "entrypoint": "com.imjustdoom.vanilla.Main",
+  "name": "Vanilla",
+  "externalDependencies": {
+    "repositories": [
+      {"name": "Central", "url": "https://repo1.maven.org/maven2/"}
+    ]
+  }
+}

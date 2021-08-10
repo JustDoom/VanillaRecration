@@ -4,8 +4,6 @@ import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
-import net.minestom.server.instance.block.BlockAlternative;
-import net.minestom.server.utils.BlockPosition;
 
 import java.util.*;
 import java.util.stream.Collectors;

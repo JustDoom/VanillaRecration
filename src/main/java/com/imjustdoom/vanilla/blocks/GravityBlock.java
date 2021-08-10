@@ -1,13 +1,12 @@
 package com.imjustdoom.vanilla.blocks;
 
-import com.imjustdoom.vanilla.entity.FallingBlockEntity;
-import net.minestom.server.coordinate.Point;
+import com.justdoom.vanillafeatures.entity.FallingBlockEntity;
 import net.minestom.server.data.Data;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
-import net.minestom.server.utils.NamespaceID;
+import net.minestom.server.utils.BlockPosition;
+import net.minestom.server.utils.Position;
 import net.minestom.server.utils.time.TimeUnit;
-import org.jetbrains.annotations.NotNull;
 
 public class GravityBlock extends VanillaBlock {
     public GravityBlock(Block baseBlock) {
@@ -15,12 +14,12 @@ public class GravityBlock extends VanillaBlock {
     }
 
     @Override
-    public void onPlace(Instance instance, Point blockPosition, Data data) {
+    public void onPlace(Instance instance, BlockPosition blockPosition, Data data) {
         instance.scheduleUpdate(2, TimeUnit.TICK, blockPosition);
     }
 
     @Override
-    public void update(Instance instance, Point blockPosition, Data data) {
+    public void update(Instance instance, BlockPosition blockPosition, Data data) {
         Block below = Block.fromStateId(instance.getBlockStateId(blockPosition.getX(), blockPosition.getY()-1, blockPosition.getZ()));
         if(below.isAir()) {
             instance.scheduleUpdate(2, TimeUnit.TICK, blockPosition);
@@ -28,12 +27,12 @@ public class GravityBlock extends VanillaBlock {
     }
 
     @Override
-    public void scheduledUpdate(Instance instance, Point blockPosition, Data data) {
+    public void scheduledUpdate(Instance instance, BlockPosition blockPosition, Data data) {
         Block below = Block.fromStateId(instance.getBlockStateId(blockPosition.getX(), blockPosition.getY()-1, blockPosition.getZ()));
         if(below.isAir()) {
             instance.setBlock(blockPosition, Block.AIR);
 
-            Point initialPosition = new Point(blockPosition.x() + 0.5f, Math.round(blockPosition.y()), blockPosition.getZ() + 0.5f);
+            Position initialPosition = new Position(blockPosition.getX() + 0.5f, Math.round(blockPosition.getY()), blockPosition.getZ() + 0.5f);
             FallingBlockEntity fallingBlockEntity = new FallingBlockEntity(getBaseBlock(), this, initialPosition);
 
             fallingBlockEntity.setInstance(instance);
@@ -43,10 +42,5 @@ public class GravityBlock extends VanillaBlock {
     @Override
     protected BlockPropertyList createPropertyValues() {
         return new BlockPropertyList();
-    }
-
-    @Override
-    public @NotNull NamespaceID getNamespaceId() {
-        return null;
     }
 }

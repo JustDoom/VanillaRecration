@@ -1,16 +1,20 @@
 package com.imjustdoom.vanilla.gamedata.loottables;
 
+/**
+ * import net.minestom.server.gamedata.loottables.entries.*;
+ */
+
 import com.imjustdoom.vanilla.gamedata.conditions.AlternativesCondition;
 import com.imjustdoom.vanilla.gamedata.conditions.InvertedCondition;
-import net.minestom.server.gamedata.conditions.SurvivesExplosionCondition;
-import net.minestom.server.gamedata.loottables.LootTableManager;
-import net.minestom.server.gamedata.loottables.entries.*;
-import net.minestom.server.gamedata.loottables.tabletypes.BlockType;
+import com.imjustdoom.vanilla.gamedata.conditions.SurvivesExplosionCondition;
+import com.imjustdoom.vanilla.gamedata.loottables.entries.*;
+import com.imjustdoom.vanilla.gamedata.loottables.tabletypes.BlockType;
 import net.minestom.server.utils.NamespaceID;
 
 public final class VanillaLootTables {
 
-    public static void register(LootTableManager tableManager) {tableManager.registerEntryType(NamespaceID.from("minecraft:alternatives"), new AlternativesType());
+    public static void register(LootTableManager tableManager) {
+        tableManager.registerEntryType(NamespaceID.from("minecraft:alternatives"), new AlternativesType());
         tableManager.registerEntryType(NamespaceID.from("minecraft:loot_table"), new AnotherLootTableType());
         tableManager.registerEntryType(NamespaceID.from("minecraft:dynamic"), new DynamicType());
         tableManager.registerEntryType(NamespaceID.from("minecraft:item"), new ItemType());
