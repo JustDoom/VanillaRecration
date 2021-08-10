@@ -1,7 +1,5 @@
 package com.imjustdoom.vanilla;
 
-import com.imjustdoom.vanilla.gamedata.loottables.VanillaLootTables;
-import net.minestom.server.MinecraftServer;
 import net.minestom.server.extensions.Extension;
 
 public class Main extends Extension {
