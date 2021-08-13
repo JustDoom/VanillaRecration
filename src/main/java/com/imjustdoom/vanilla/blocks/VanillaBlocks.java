@@ -3,6 +3,8 @@ package com.imjustdoom.vanilla.blocks;
 import com.imjustdoom.vanilla.gamedata.loottables.LootTable;
 import com.imjustdoom.vanilla.gamedata.loottables.LootTableManager;
 import net.minestom.server.MinecraftServer;
+import net.minestom.server.coordinate.Point;
+import net.minestom.server.coordinate.Pos;
 import net.minestom.server.data.Data;
 import net.minestom.server.data.DataImpl;
 import net.minestom.server.entity.ItemEntity;
@@ -11,6 +13,7 @@ import net.minestom.server.gamedata.loottables.LootTable;
 import net.minestom.server.gamedata.loottables.LootTableManager;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
+import net.minestom.server.instance.block.BlockHandler;
 import net.minestom.server.instance.block.BlockManager;
 import net.minestom.server.instance.block.CustomBlock;
 import net.minestom.server.instance.block.rule.BlockPlacementRule;
@@ -104,10 +107,10 @@ public enum VanillaBlocks {
         VanillaBlock create();
     }
 
-    public static void dropOnBreak(Instance instance, BlockPosition position) {
+    public static void dropOnBreak(Instance instance, Point position) {
         LootTable table = null;
         LootTableManager lootTableManager = MinecraftServer.getLootTableManager();
-        CustomBlock customBlock = instance.getCustomBlock(position);
+        BlockHandler customBlock = instance.getCustomBlock(position);
         if (customBlock != null) {
             table = customBlock.getLootTable(lootTableManager);
         }
@@ -120,15 +123,16 @@ public enum VanillaBlocks {
             }
             List<ItemStack> stacks = table.generate(lootTableArguments);
             for (ItemStack item : stacks) {
-                Position spawnPosition = new Position((float) (position.getX() + 0.2f + Math.random() * 0.6f), (float) (position.getY() + 0.5f), (float) (position.getZ() + 0.2f + Math.random() * 0.6f));
-                ItemEntity itemEntity = new ItemEntity(item, spawnPosition);
+                Pos spawnPosition = new Pos((float) (position.x() + 0.2f + Math.random() * 0.6f), (float) (position.y() + 0.5f), (float) (position.z() + 0.2f + Math.random() * 0.6f));
+                ItemEntity itemEntity = new ItemEntity(item);
 
-                itemEntity.getVelocity().setX((float) (Math.random() * 2f - 1f));
-                itemEntity.getVelocity().setY((float) (Math.random() * 2f));
-                itemEntity.getVelocity().setZ((float) (Math.random() * 2f - 1f));
+                itemEntity.getVelocity().withX((float) (Math.random() * 2f - 1f));
+                itemEntity.getVelocity().withY((float) (Math.random() * 2f));
+                itemEntity.getVelocity().withZ((float) (Math.random() * 2f - 1f));
 
                 itemEntity.setPickupDelay(500, TimeUnit.MILLISECOND);
                 itemEntity.setInstance(instance);
+                itemEntity.teleport(spawnPosition);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
