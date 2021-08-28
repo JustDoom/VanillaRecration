@@ -2,6 +2,7 @@ package com.imjustdoom.vanilla;
 
 import com.imjustdoom.vanilla.commands.GamemodeCommand;
 import com.imjustdoom.vanilla.commands.StopCommand;
+import com.imjustdoom.vanilla.commands.TeleportCommand;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
@@ -15,17 +16,13 @@ import net.minestom.server.event.item.PickupItemEvent;
 import net.minestom.server.event.player.PlayerLoginEvent;
 import net.minestom.server.event.player.PlayerSkinInitEvent;
 import net.minestom.server.extensions.Extension;
-import net.minestom.server.instance.*;
-import net.minestom.server.instance.batch.ChunkBatch;
-import net.minestom.server.instance.block.Block;
+import net.minestom.server.instance.InstanceContainer;
+import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.item.ItemStack;
-import net.minestom.server.network.ConnectionManager;
-import net.minestom.server.world.biomes.Biome;
 
 import java.time.Duration;
-import java.time.temporal.TemporalUnit;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main extends Extension {
 
@@ -49,6 +46,7 @@ public class Main extends Extension {
 
         MinecraftServer.getCommandManager().register(new GamemodeCommand());
         MinecraftServer.getCommandManager().register(new StopCommand());
+        MinecraftServer.getCommandManager().register(new TeleportCommand());
 
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
 
