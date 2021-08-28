@@ -1,6 +1,7 @@
 package com.imjustdoom.vanilla;
 
 import com.imjustdoom.vanilla.commands.GamemodeCommand;
+import com.imjustdoom.vanilla.commands.StopCommand;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
@@ -47,6 +48,7 @@ public class Main extends Extension {
         instanceContainer.setChunkGenerator(new NoiseTestGenerator());
 
         MinecraftServer.getCommandManager().register(new GamemodeCommand());
+        MinecraftServer.getCommandManager().register(new StopCommand());
 
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
 
