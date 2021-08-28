@@ -93,6 +93,5 @@ public class Main extends Extension {
 
     @Override
     public void terminate() {
-
     }
 }
